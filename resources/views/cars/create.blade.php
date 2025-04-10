@@ -10,7 +10,7 @@
         <!-- License Plate -->
         <div>
             <label for="license_plate" class="block text-sm font-medium text-gray-600">License Plate:</label>
-            <input type="text" id="license_plate" name="license_plate" required class="mt-1 p-3 w-full border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="XX-99-99" pattern="[A-Za-z]{2}-\d{2}-\d{2}">
+            <input type="text" id="license_plate" name="license_plate" required class="mt-1 p-3 w-full border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="XX-99-99">
         </div>
 
         <!-- Brand -->

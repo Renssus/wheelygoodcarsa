@@ -6,14 +6,16 @@ use App\Models\Car;
 
 class CarController extends Controller
 {
-    public function showAddCarForm()
+    // Display the form for creating a new car (default resource action)
+    public function create()
     {
-        return view('cars.create'); 
+        return view('cars.create');
     }
 
+    // Store a newly created car in the database (default resource action)
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'license_plate' => 'required|string|max:10',
             'brand' => 'required|string|max:255',
             'model' => 'required|string|max:255',
@@ -47,6 +49,52 @@ class CarController extends Controller
 
         $car->save();
 
-        return redirect()->route('cars.show')->with('success', 'Car added successfully!');
+        // Redirect after storing the car, ideally back to the index page
+        return redirect()->route('cars.index')->with('success', 'Car added successfully!');
     }
+
+    // Display a list of cars the authenticated user owns
+    public function index()
+    {
+        $cars = Car::where('user_id', auth()->id())->get();
+        return view('cars.index', compact('cars'));
+    }
+
+    // Optional: Show a specific car (if you want to display single car details)
+    public function show($id)
+    {
+        $car = Car::findOrFail($id);
+        return view('cars.show', compact('car'));
+    }
+
+    // Optional: Edit the details of a specific car
+    public function edit($id)
+    {
+        $car = Car::findOrFail($id);
+        return view('cars.edit', compact('car'));
+    }
+
+    // Update the car details
+    public function update(Request $request, $id)
+    {
+        $car = Car::findOrFail($id);
+
+        // Validation and updating logic...
+
+        return redirect()->route('cars.index')->with('success', 'Car updated successfully!');
+    }
+
+    // Delete a car
+    public function destroy($id)
+    {
+        $car = Car::findOrFail($id);
+        $car->delete();
+
+        return redirect()->route('cars.index')->with('success', 'Car deleted successfully!');
+    }
+
+    public function showAddCarForm()
+{
+    return view('cars.create');
+}
 }

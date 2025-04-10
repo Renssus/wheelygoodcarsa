@@ -22,8 +22,8 @@
                     <ul class="flex items-end">
                         <li class="mr-4"><a class="text-white hover:text-gray-300" href="">Alle auto's</a></li>
                         @auth
-                            <li class="mr-4"><a class="text-white hover:text-gray-300" href="{{route('cars.show') }}">Mijn aanbod</a></li>
-                            <!-- <li class="mr-4"><a class="text-white hover:text-gray-300" href="{{route('cars.show') }}">Aanbod plaatsen</a></li> -->
+                            <li class="mr-4"><a class="text-white hover:text-gray-300" href="{{route('cars.index') }}">Mijn aanbod</a></li>
+                            <li class="mr-4"><a class="text-white hover:text-gray-300" href="{{route('cars.show') }}">Aanbod plaatsen</a></li>
                         @endauth
                     </ul>
                     <ul class="flex">
@@ -39,8 +39,8 @@
             </div>
         </nav>
 
-        <div class="max-w-7xl mx-auto px-4">
-            {{ $slot }}
-        </div>
+    <div class="max-w-7xl mx-auto px-4">
+        @yield('content')
+    </div>
     </body>
 </html>
