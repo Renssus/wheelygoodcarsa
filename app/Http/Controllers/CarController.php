@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http; // Make sure this is imported
 use App\Models\Car;
 
 class CarController extends Controller
@@ -93,8 +94,49 @@ class CarController extends Controller
         return redirect()->route('cars.index')->with('success', 'Car deleted successfully!');
     }
 
-    public function showAddCarForm()
-{
-    return view('cars.create');
-}
+    // Fetch car data from RDW API based on license plate
+    public function getCarDataFromRdw(Request $request)
+    {
+        // Validate the license plate
+        $request->validate([
+            'license_plate' => 'required|string|max:10',
+        ]);
+    
+        // Ensure the license plate is uppercase
+        $licensePlate = strtoupper($request->license_plate);
+
+        // RDW API URL with the license plate
+        $apiUrl = "https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken={$licensePlate}&$$app_token=YOUR_APP_TOKEN";
+
+        // Make the API request
+        $response = Http::get($apiUrl);
+    
+        // Check if the response was successful
+        if ($response->successful()) {
+            // Process the data if the API request is successful
+            $carData = $response->json();
+    
+            if (count($carData) > 0) {
+                // Get the car information from the API response
+                $carInfo = $carData[0];
+    
+                return response()->json([
+                    'success' => true,
+                    'data' => $carInfo,
+                ]);
+            } else {
+                // No data found for the given license plate
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No data found for this license plate.',
+                ]);
+            }
+        } else {
+            // If the API request failed
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while fetching the data.',
+            ]);
+        }
+    }
 }
