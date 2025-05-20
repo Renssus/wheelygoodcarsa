@@ -20,7 +20,9 @@ Route::middleware('auth')->group(function () {
 // car
 
 Route::get('/', [CarController::class, 'index'])->name('cars.index');
-Route::get('/cars/multistep/step1', [CarController::class, 'showStep1'])->name('cars.step1');
-
+Route::get('/RegisteerAuto/stap1', [CarController::class, 'showStep1'])->name('cars.step1');
+Route::post('/RegisteerAuto/stap1', [CarController::class, 'postStep1'])->name('cars.postStep1');
+Route::get('/RegisteerAuto/step2', [CarController::class, 'showStep2'])->name('cars.step2');
+Route::post('/RegisteerAuto/step2', [CarController::class, 'postStep2'])->name('cars.postStep2');
 
 require __DIR__.'/auth.php';

@@ -15,10 +15,9 @@ class CarController extends Controller
     public function index()
     {
         $cars = Car::all();
-        return view('overview', compact('cars'));
+        return view('MyCars', compact('cars'));
     }
 
-    // 📃 Eigen auto's overzicht
     public function show()
     {
         $cars = Car::with('user')
@@ -29,21 +28,18 @@ class CarController extends Controller
         return view('cars.show', compact('cars'));
     }
 
-    // 📖 Publieke detailpagina + views tellen
     public function detail(Car $car)
     {
         $car->increment('views');
         return view('cars.detail', compact('car'));
     }
 
-    // ✏️ Bewerken-formulier
     public function edit(Car $car)
     {
         $this->authorize('update', $car);
         return view('cars.edit', compact('car'));
     }
 
-    // 💾 Bewerken opslaan
     public function update(Request $request, Car $car)
     {
         $this->authorize('update', $car);
@@ -76,7 +72,6 @@ class CarController extends Controller
         return redirect()->route('cars.show')->with('success', 'Auto succesvol bijgewerkt.');
     }
 
-    // 🗑️ Verwijderen
     public function destroy(Car $car)
     {
         $this->authorize('delete', $car);
@@ -90,17 +85,7 @@ class CarController extends Controller
         return redirect()->route('cars.show')->with('success', 'Auto succesvol verwijderd.');
     }
 
-    // 📄 PDF genereren
-    public function generatePdf(Car $car)
-    {
-        $this->authorize('view', $car);
 
-        $pdf = Pdf::loadView('cars.pdf', compact('car'));
-
-        return $pdf->download("auto-{$car->license_plate}.pdf");
-    }
-
-    // ✅ Markeren als verkocht
     public function markAsSold(Car $car)
     {
         $this->authorize('update', $car);
@@ -119,7 +104,7 @@ class CarController extends Controller
     // 📄 Stap 1: kenteken invoeren
     public function showStep1()
     {
-        return view('cars.step1', ['progress' => 33, 'currentStep' => 1]);
+        return view('createCar.Stap1', ['progress' => 33, 'currentStep' => 1]);
     }
 
     public function postStep1(Request $request)
