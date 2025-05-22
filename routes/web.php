@@ -23,6 +23,9 @@ Route::get('/', [CarController::class, 'index'])->name('cars.index');
     Route::get('/RegisteerAuto/stap3', [CarController::class, 'showStep3'])->name('cars.step3');
     Route::post('/RegisteerAuto/stap3', [CarController::class, 'postStep3'])->name('cars.postStep3');
 });
+Route::get('/cars/{car}', [CarController::class, 'detail'])->name('cars.detail');
+
+
 
 // go to login page if not logged in
 Route::get('/login', function () {

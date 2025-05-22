@@ -40,13 +40,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $car->views }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
                             <a href="{{ route('cars.detail', $car) }}" class="inline-flex items-center px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Details</a>
-                            <a href="{{ route('cars.edit', $car) }}" class="inline-flex items-center px-3 py-1 text-sm bg-yellow-400 text-white rounded hover:bg-yellow-500">Wijzig</a>
-                            <form action="{{ route('cars.destroy', $car) }}" method="POST" class="inline-block"
-                                onsubmit="return confirm('Weet je zeker dat je deze auto wilt verwijderen?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="inline-flex items-center px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">Verwijder</button>
-                            </form>
+
                         </td>
                     </tr>
                 @empty
