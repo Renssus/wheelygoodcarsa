@@ -45,19 +45,19 @@ class CarController extends Controller
         $this->authorize('update', $car);
 
         $validated = $request->validate([
-            'license_plate'     => 'required|unique:cars,license_plate,' . $car->id,
-            'make'              => 'required',
-            'brand'             => 'required',
-            'model'             => 'required',
-            'price'             => 'required|numeric',
-            'mileage'           => 'required|integer',
-            'seats'             => 'nullable|integer',
-            'doors'             => 'nullable|integer',
-            'production_year'   => 'nullable|integer',
-            'weight'            => 'nullable|integer',
-            'color'             => 'nullable|string',
-            'image'             => 'nullable|image',
-            'sold_at'           => 'nullable|date',
+            'license_plate' => 'required|unique:cars,license_plate,' . $car->id,
+            'make' => 'required',
+            'brand' => 'required',
+            'model' => 'required',
+            'price' => 'required|numeric',
+            'mileage' => 'required|integer',
+            'seats' => 'nullable|integer',
+            'doors' => 'nullable|integer',
+            'production_year' => 'nullable|integer',
+            'weight' => 'nullable|integer',
+            'color' => 'nullable|string',
+            'image' => 'nullable|image',
+            'sold_at' => 'nullable|date',
         ]);
 
         if ($request->hasFile('image')) {
@@ -100,13 +100,11 @@ class CarController extends Controller
     | Multistep Form Functionaliteit
     |--------------------------------------------------------------------------
     */
-
-    // 📄 Stap 1: kenteken invoeren
     public function showStep1()
     {
         return view('createCar.Stap1', ['progress' => 33, 'currentStep' => 1]);
     }
-
+    // 📄 Stap 1: kenteken invoeren
     public function postStep1(Request $request)
     {
         $request->validate([
@@ -129,31 +127,49 @@ class CarController extends Controller
         return back()->withErrors(['license_plate' => 'Kenteken niet gevonden.']);
     }
 
-    // 📄 Stap 2: gegevens aanvullen
+    // 📄 Stap 2: formulier met vooraf ingevulde RDW-data
     public function showStep2()
     {
-        $carData = session('carData');
-        return view('cars.step2', [
-            'carData' => $carData,
-            'progress' => 66,
-            'currentStep' => 2
-        ]);
+        if (!session()->has('carData')) {
+            return redirect()->route('cars.step1')->withErrors('Voer eerst een kenteken in.');
+        }
+
+        $raw = session('carData');
+
+        // Map de RDW-velden naar jouw form-namen
+        $carData = [
+            'license_plate' => $raw['license_plate'] ?? '',
+            'make' => $raw['merk'] ?? '',
+            'brand' => $raw['handelsbenaming'] ?? '',
+            'model' => $raw['handelsbenaming'] ?? '',
+            'price' => '',
+            'mileage' => '',
+            'seats' => $raw['aantal_zitplaatsen'] ?? 'onbekend',
+            'doors' => $raw['aantal_deuren'] ?? 'onbekend',
+            'production_year' => isset($raw['datum_eerste_toelating'])
+                ? Carbon::parse($raw['datum_eerste_toelating'])->year
+                : '',
+            'weight' => $raw['massa_ledig_voertuig'] ?? '',
+            'color' => $raw['eerste_kleur'] ?? '',
+        ];
+
+        return view('createCar.Stap2', compact('carData'));
     }
 
     public function postStep2(Request $request)
     {
         $request->validate([
-            'make'              => 'required',
-            'brand'             => 'required',
-            'model'             => 'required',
-            'price'             => 'required|numeric',
-            'mileage'           => 'required|integer',
-            'seats'             => 'nullable|integer',
-            'doors'             => 'nullable|integer',
-            'production_year'   => 'nullable|integer',
-            'weight'            => 'nullable|integer',
-            'color'             => 'nullable',
-            'sold_at'           => 'nullable|date',
+            'make' => 'required',
+            'brand' => 'required',
+            'model' => 'required',
+            'price' => 'required|numeric',
+            'mileage' => 'required|integer',
+            'seats' => 'nullable|integer',
+            'doors' => 'nullable|integer',
+            'production_year' => 'nullable|integer',
+            'weight' => 'nullable|integer',
+            'color' => 'nullable',
+            'sold_at' => 'nullable|date',
         ]);
 
         $carData = session('carData', []);
@@ -166,7 +182,7 @@ class CarController extends Controller
     // 📄 Stap 3: foto uploaden
     public function showStep3()
     {
-        return view('cars.step3', ['progress' => 100, 'currentStep' => 3]);
+        return view('createCar.stap3');
     }
 
     public function postStep3(Request $request)

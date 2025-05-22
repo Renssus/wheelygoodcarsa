@@ -3,80 +3,112 @@
 @section('title', 'Vul autogegevens aan')
 
 @section('content')
-<div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-6">
-    <h1 class="text-2xl font-bold mb-6">Vul de gegevens van je auto aan</h1>
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-6">
 
-    @if ($errors->any())
-        <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('cars.postStep2') }}" method="POST">
-        @csrf
-
-        <div class="mb-4">
-            <label class="block font-semibold mb-1" for="license_plate">Kenteken</label>
-            <input type="text" id="license_plate" name="license_plate" value="{{ $carData['license_plate'] ?? '' }}" disabled class="bg-yellow-300 text-black rounded px-3 py-2 w-full" />
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-                <label class="block font-semibold mb-1" for="make">Merk</label>
-                <input type="text" id="make" name="make" value="{{ old('make', $carData['make'] ?? '') }}" required class="border rounded px-3 py-2 w-full" />
+        {{-- Progressbar --}}
+        <div class="flex items-center mb-8">
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-400 text-black font-bold z-10">1
             </div>
-            <div>
-                <label class="block font-semibold mb-1" for="brand">Type</label>
-                <input type="text" id="brand" name="brand" value="{{ old('brand', $carData['brand'] ?? '') }}" required class="border rounded px-3 py-2 w-full" />
+            <div class="flex-1 h-1 bg-gray-300"></div>
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-400 text-black font-bold z-10">2
             </div>
-            <div>
-                <label class="block font-semibold mb-1" for="model">Model</label>
-                <input type="text" id="model" name="model" value="{{ old('model', $carData['model'] ?? '') }}" required class="border rounded px-3 py-2 w-full" />
-            </div>
-            <div>
-                <label class="block font-semibold mb-1" for="price">Prijs (€)</label>
-                <input type="number" id="price" name="price" value="{{ old('price', $carData['price'] ?? '') }}" required class="border rounded px-3 py-2 w-full" />
+            <div class="flex-1 h-1 bg-gray-300"></div>
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-600 font-bold z-10">3
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div>
-                <label class="block font-semibold mb-1" for="mileage">Kilometerstand</label>
-                <input type="number" id="mileage" name="mileage" value="{{ old('mileage', $carData['mileage'] ?? '') }}" required class="border rounded px-3 py-2 w-full" />
-            </div>
-            <div>
-                <label class="block font-semibold mb-1" for="seats">Aantal zitplaatsen</label>
-                <input type="number" id="seats" name="seats" value="{{ old('seats', $carData['seats'] ?? '') }}" class="border rounded px-3 py-2 w-full" />
-            </div>
-            <div>
-                <label class="block font-semibold mb-1" for="doors">Aantal deuren</label>
-                <input type="number" id="doors" name="doors" value="{{ old('doors', $carData['doors'] ?? '') }}" class="border rounded px-3 py-2 w-full" />
-            </div>
-        </div>
+        <h1 class="text-2xl font-bold mb-6">Vul de gegevens van je auto aan</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-                <label class="block font-semibold mb-1" for="production_year">Bouwjaar</label>
-                <input type="number" id="production_year" name="production_year" value="{{ old('production_year', $carData['production_year'] ?? '') }}" class="border rounded px-3 py-2 w-full" />
+        @if ($errors->any())
+            <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-            <div>
-                <label class="block font-semibold mb-1" for="weight">Gewicht (kg)</label>
-                <input type="number" id="weight" name="weight" value="{{ old('weight', $carData['weight'] ?? '') }}" class="border rounded px-3 py-2 w-full" />
-            </div>
-            <div>
-                <label class="block font-semibold mb-1" for="color">Kleur</label>
-                <input type="text" id="color" name="color" value="{{ old('color', $carData['color'] ?? '') }}" class="border rounded px-3 py-2 w-full" />
-            </div>
-        </div>
+        @endif
 
-        <div class="flex justify-between items-center">
-            <a href="{{ route('cars.step1') }}" class="text-indigo-600 hover:underline">Terug</a>
-            <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">Volgende stap</button>
-        </div>
-    </form>
-</div>
+        <form action="{{ route('cars.postStep2') }}" method="POST">
+            @csrf
+
+            {{-- Kenteken (disabled) --}}
+            <div class="mb-4">
+                <label for="license_plate" class="block font-semibold mb-1">Kenteken</label>
+                <input id="license_plate" name="license_plate" type="text" value="{{ $carData['license_plate'] }}" disabled
+                    class="bg-yellow-300 text-black rounded px-3 py-2 w-full" />
+            </div>
+
+            {{-- Merk, Type, Model, Prijs --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="make" class="block font-semibold mb-1">Merk</label>
+                    <input id="make" name="make" type="text" value="{{ old('make', $carData['make']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="brand" class="block font-semibold mb-1">Type</label>
+                    <input id="brand" name="brand" type="text" value="{{ old('brand', $carData['brand']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="model" class="block font-semibold mb-1">Model</label>
+                    <input id="model" name="model" type="text" value="{{ old('model', $carData['model']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="price" class="block font-semibold mb-1">Prijs (€)</label>
+                    <input id="price" name="price" type="number" value="{{ old('price', $carData['price']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            {{-- Kilometerstand, Zitplaatsen, Deuren --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label for="mileage" class="block font-semibold mb-1">Kilometerstand</label>
+                    <input id="mileage" name="mileage" type="number" value="{{ old('mileage', $carData['mileage']) }}"
+                        required class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="seats" class="block font-semibold mb-1">Aantal zitplaatsen</label>
+                    <input id="seats" name="seats" type="number" value="{{ old('seats', $carData['seats']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="doors" class="block font-semibold mb-1">Aantal deuren</label>
+                    <input id="doors" name="doors" type="number" value="{{ old('doors', $carData['doors']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            {{-- Bouwjaar, Gewicht, Kleur --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="production_year" class="block font-semibold mb-1">Bouwjaar</label>
+                    <input id="production_year" name="production_year" type="number"
+                        value="{{ old('production_year', $carData['production_year']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="weight" class="block font-semibold mb-1">Gewicht (kg)</label>
+                    <input id="weight" name="weight" type="number" value="{{ old('weight', $carData['weight']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+                <div>
+                    <label for="color" class="block font-semibold mb-1">Kleur</label>
+                    <input id="color" name="color" type="text" value="{{ old('color', $carData['color']) }}" required
+                        class="border rounded px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            {{-- Navigatie --}}
+            <div class="flex justify-between items-center">
+                <a href="{{ route('cars.step1') }}" class="text-indigo-600 hover:underline">Terug</a>
+                <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">
+                    Volgende stap
+                </button>
+            </div>
+        </form>
+    </div>
 @endsection

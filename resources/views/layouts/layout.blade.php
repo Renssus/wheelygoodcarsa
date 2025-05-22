@@ -20,9 +20,7 @@
                                 class="inline-block px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
                                 Beheer mijn auto's
                             </a>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="text-indigo-600 hover:underline">Logout</button>
+                        <a href="{{ route('logout') }}" class="text-indigo-600 hover:underline">logout</a>
                     @else
                         <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Login</a> /
                         <a href="{{ route('register') }}" class="text-indigo-600 hover:underline">Register</a>
@@ -32,8 +30,8 @@
         </div>
     </header>
     <main class="flex-grow container mx-auto px-4 py-8">
-        @yield('content')
-    </main>
+        @yield('content')        
+</main>
 
     <footer class="bg-white border-t mt-auto">
         <div class="container mx-auto px-4 py-4 text-center text-gray-500 text-sm">

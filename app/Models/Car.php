@@ -9,7 +9,7 @@ class Car extends Model
     //
     protected $fillable = [
         'user_id',
-        'category_id',
+        'id',
         'license_plate',
         'make',
         'model',
@@ -19,7 +19,7 @@ class Car extends Model
         'doors',
         'production_year',
         'weight',
-        'color_id',
+        'color',
         'image',
         'sold_at',
         'views'
