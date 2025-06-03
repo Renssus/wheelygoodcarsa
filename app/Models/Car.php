@@ -24,5 +24,8 @@ class Car extends Model
         'sold_at',
         'views'
     ];
-    
+        public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

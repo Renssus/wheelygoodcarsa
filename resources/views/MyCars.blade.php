@@ -20,7 +20,6 @@
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Prijs (€)</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Views</th>
-                    <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Acties</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -39,7 +38,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $car->views }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
-                            <a href="{{ route('cars.detail', $car) }}" class="inline-flex items-center px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Details</a>
+                            <a href="{{ route('car.detail', $car) }}" class="inline-flex items-center px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Details</a>
 
                         </td>
                     </tr>

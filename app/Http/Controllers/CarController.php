@@ -31,7 +31,7 @@ class CarController extends Controller
     public function detail(Car $car)
     {
         $car->increment('views');
-        return view('cars.detail', compact('car'));
+        return view('car.detail', compact('car'));
     }
 
     public function edit(Car $car)
@@ -203,4 +203,10 @@ class CarController extends Controller
 
         return redirect()->route('cars.index')->with('success', 'Auto succesvol aangemaakt.');
     }
+
+    public function overview()
+{
+    $cars = Car::with('user')->get();
+    return view('car.overview', compact('cars'));
+}
 }

@@ -23,7 +23,10 @@ Route::get('/', [CarController::class, 'index'])->name('cars.index');
     Route::get('/RegisteerAuto/stap3', [CarController::class, 'showStep3'])->name('cars.step3');
     Route::post('/RegisteerAuto/stap3', [CarController::class, 'postStep3'])->name('cars.postStep3');
 });
-Route::get('/cars/{car}', [CarController::class, 'detail'])->name('cars.detail');
+Route::get('/cars/{car}', [CarController::class, 'detail'])->name('car.detail');
+
+// overall //overview of all cars
+Route::get('/overview', [CarController::class, 'overview'])->name('cars.overview');
 
 
 
